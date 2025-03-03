@@ -2,20 +2,28 @@ import React, { useState, useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 
 export const AddTransaction = () => {
-    const [text, setText] = useState('');
-    const [amount, setAmount] = useState(0);
-    
-    const { addTransaction } = useContext(GlobalContext);
+  const [text, setText] = useState('');
+  const [amount, setAmount] = useState('');
 
-    const onSubmit = e => {
+  const { addTransaction } = useContext(GlobalContext);
+
+  const onSubmit = e => {
       e.preventDefault();
+
+      if (!text || !amount) return; // Prevent adding empty transactions
+
       const newTransaction = {
-        id: Math.floor(Math.random() * 10000000),
-        text,
-        amount: +amount
+          id: Math.floor(Math.random() * 10000000),
+          text,
+          amount: +amount
       };
+
       addTransaction(newTransaction);
-    };
+
+      // Clear fields after submission
+      setText('');
+      setAmount('');
+  };
 
     return (
         <>
